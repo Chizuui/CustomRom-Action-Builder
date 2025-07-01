@@ -1,11 +1,11 @@
-name: Build AfterlifeOS for Violet
+name: Build vo X for Violet
 
 on:
   workflow_dispatch:
 
 jobs:
   build:
-    name: AfterlifeOS Build for Violet
+    name: Evo X Build for Violet
     runs-on: ubuntu-latest
 
     steps:
@@ -40,15 +40,15 @@ jobs:
     - name: Initialize AfterlifeOS repo
       run: |
         mkdir rom && cd rom
-        repo init --depth=1 -u https://github.com/AfterlifeOS/android_manifest.git -b 14 --git-lfs
+        repo init -u https://github.com/Evolution-X/manifest -b vic --git-lfs
         repo sync -c --no-tags --no-clone-bundle -j$(nproc --all)
 
     - name: Clone device tree, vendor, kernel
       run: |
         cd rom
-        git clone https://github.com/ChroniX-AOSP/platform_device_xiaomi_violet.git device/xiaomi/violet
-        git clone https://github.com/ChroniX-AOSP/platform_vendor_xiaomi_violet.git vendor/xiaomi/violet
-        git clone https://github.com/ChroniX-AOSP/platform_kernel_xiaomi_violet.git -b surukuu-1.1 kernel/xiaomi/violet
+        git clone https://github.com/Mayuri-Chan/android_device_xiaomi_gale.git -b dev/lineage-22.2 device/xiaomi/gale
+        git clone https://github.com/Mayuri-Chan/proprietary_vendor_xiaomi_gale.git -b dev/lineage-22.2-aidl-tms vendor/xiaomi/gale
+        git clone https://github.com/Mayuri-Chan/android_kernel_xiaomi_gale kernel/xiaomi/gale
 
     - name: Prepare for build
       run: |
