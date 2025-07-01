@@ -1,11 +1,11 @@
-name: Build vo X for Violet
+name: Build Evo X for Gale
 
 on:
   workflow_dispatch:
 
 jobs:
   build:
-    name: Evo X Build for Violet
+    name: Evo X Build for Gale
     runs-on: ubuntu-latest
 
     steps:
@@ -21,8 +21,8 @@ jobs:
 
     - name: Set Git config and add repo tool
       run: |
-        git config --global user.name "Chronix-AOSP"
-        git config --global user.email "phoniexpaul88@gmail.com"
+        git config --global user.name "Mizu111"
+        git config --global user.email "mboragenah@gmail.com"
         mkdir -p ~/bin
         curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
         chmod +x ~/bin/repo
@@ -34,10 +34,10 @@ jobs:
         echo "START_TIME=$START_TIME" >> $GITHUB_ENV
         curl -s -X POST "https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendMessage" \
           -d chat_id="${{ secrets.TG_CHAT_ID }}" \
-          -d text="🚧 Starting AfterlifeOS *Violet* build...\nThis may take a while ⏳" \
+          -d text="🚧 Starting Evo X *gale* build...\nThis may take a while ⏳" \
           -d parse_mode="Markdown"
 
-    - name: Initialize AfterlifeOS repo
+    - name: Initialize Evo X repo
       run: |
         mkdir rom && cd rom
         repo init -u https://github.com/Evolution-X/manifest -b vic --git-lfs
@@ -58,12 +58,12 @@ jobs:
         export USE_CCACHE=1
         ccache -M 50G
         source build/envsetup.sh
-        lunch goafterlife violet
+        lunch lineage_gale-bp1a-userdebug
 
     - name: Start build
       run: |
         cd rom
-        mka bacon -j$(nproc --all)
+        m evolution -j$(nproc --all)
 
     - name: Upload ROM to Telegram (Success)
       if: success()
@@ -71,14 +71,14 @@ jobs:
         END_TIME=$(date +%s)
         DURATION=$(( (END_TIME - START_TIME) / 60 ))
 
-        cd rom/out/target/product/violet
+        cd rom/out/target/product/gale
         FILE=$(ls *.zip | head -n 1)
         SIZE=$(du -h "$FILE" | cut -f1)
         MD5=$(md5sum "$FILE" | cut -d ' ' -f1)
 
         curl -F document=@"$FILE" \
              -F chat_id="${{ secrets.TG_CHAT_ID }}" \
-             -F caption="✅ *AfterlifeOS Build Complete* for *Violet* 📱\n\n📦 File: *$FILE*\n🧩 Size: *$SIZE*\n🔐 MD5: \`$MD5\`\n🕒 Duration: *$DURATION minutes*\n\nUploaded via GitHub Actions." \
+             -F caption="✅ *Evo X Build Complete* for *gale* 📱\n\n📦 File: *$FILE*\n🧩 Size: *$SIZE*\n🔐 MD5: \`$MD5\`\n🕒 Duration: *$DURATION minutes*\n\nUploaded via GitHub Actions." \
              -F parse_mode="Markdown" \
              https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendDocument
 
@@ -89,5 +89,5 @@ jobs:
         DURATION=$(( (END_TIME - START_TIME) / 60 ))
         curl -s -X POST "https://api.telegram.org/bot8143430552:AAFo0AZzkNSKNDfhEPEiWoxzBDlb4lFXIwI/sendMessage" \
           -d chat_id="1556227024" \
-          -d text="❌ AfterlifeOS build for *Violet* failed.\n🕒 Duration: *$DURATION minutes*\nCheck the GitHub Actions logs." \
+          -d text="❌ Evo X build for *gale* failed.\n🕒 Duration: *$DURATION minutes*\nCheck the GitHub Actions logs." \
           -d parse_mode="Markdown"
