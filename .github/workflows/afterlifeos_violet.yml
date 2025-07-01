@@ -87,7 +87,7 @@ jobs:
       run: |
         END_TIME=$(date +%s)
         DURATION=$(( (END_TIME - START_TIME) / 60 ))
-        curl -s -X POST "https://api.telegram.org/bot8143430552:AAFo0AZzkNSKNDfhEPEiWoxzBDlb4lFXIwI/sendMessage" \
-          -d chat_id="1556227024" \
+        curl -s -X POST "https://api.telegram.org/bot7922883057:AAEpjI2bjh1QAOB3M2J9aJK9hv_bqGbnlAQ/sendMessage" \
+          -d chat_id="5042504372" \
           -d text="❌ Evo X build for *gale* failed.\n🕒 Duration: *$DURATION minutes*\nCheck the GitHub Actions logs." \
           -d parse_mode="Markdown"
